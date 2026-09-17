@@ -44,8 +44,37 @@ button{font:inherit;cursor:pointer}
 header{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0;font-size:.9rem;color:var(--ink-2)}
 header .brand{display:flex;align-items:center;gap:.6rem;color:var(--ink);font-weight:500}
 header .brand i{display:inline-block;width:14px;height:14px;background:var(--red);transform:rotate(45deg)}
-.iconbar{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden;background:var(--bg-2)}
-.icon-btn{display:inline-flex;align-items:center;justify-content:center;background:transparent;border:0;border-right:1px solid var(--line-2);padding:.5rem .7rem;color:var(--ink-2);text-decoration:none}
+.iconbar{display:inline-flex;margin-left:auto;border:1px solid var(--line-2);border-radius:6px;background:var(--bg-2)}
+.icon-btn{position:relative;display:inline-flex;align-items:center;gap:.45rem;background:transparent;border:0;border-right:1px solid var(--line-2);padding:.5rem .85rem;color:var(--ink-2);text-decoration:none;font-size:.86rem;white-space:nowrap}
+.icon-btn:first-child{border-radius:6px 0 0 6px}.icon-btn:last-child{border-radius:0 6px 6px 0}
+.icon-btn::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);right:0;background:var(--ink);color:var(--bg);font-size:.78rem;line-height:1.35;padding:.4rem .6rem;border-radius:4px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .15s,transform .15s;z-index:20}
+.icon-btn:hover::after,.icon-btn:focus-visible::after{opacity:1;transform:none}
+@media (max-width:820px){.icon-btn span{display:none}.icon-btn{padding:.5rem .7rem}}
+.byline{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);margin:0 0 1rem}
+/* tabs + flip cards */
+.tabs{display:inline-flex;border-bottom:1px solid var(--line);margin:1.8rem 0 1.2rem;gap:.2rem}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;padding:.6rem 1rem;color:var(--ink-2);font-size:.98rem}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--red)}
+.cardgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@media (max-width:960px){.cardgrid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.cardgrid{grid-template-columns:1fr}}
+.flip{perspective:1400px;min-height:270px}
+.flip-inner{position:relative;width:100%;height:100%;min-height:270px;transition:transform .55s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.flip.is-flipped .flip-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--bg-2);border:1px solid var(--line);padding:1.1rem 1.2rem;display:flex;flex-direction:column;cursor:pointer}
+.face.back{transform:rotateY(180deg);overflow:auto;border-color:var(--line-2)}
+.face .code{font-family:var(--mono);font-size:.76rem;color:var(--red)}
+.face h3{font-size:1rem;margin:.35rem 0 .5rem}
+.face p{font-size:.9rem;color:var(--ink-2);margin:0}
+.face .turn{margin-top:auto;padding-top:.8rem;font-size:.78rem;color:var(--ink-3);display:flex;align-items:center;gap:.4rem}
+.face .turn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.face.back ol,.face.back ul{padding-left:1.1rem;margin:.2rem 0;font-size:.86rem;color:var(--ink-2)}
+.face.back li{margin:.22rem 0}
+.face.back table{width:100%;border-collapse:collapse;font-size:.82rem}
+.face.back td,.face.back th{padding:.3rem .35rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.face.back th{color:var(--ink)}
+.flip:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.flip-inner{transition:none}}
 .icon-btn:last-child{border-right:0}
 .icon-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .icon-btn:hover{background:var(--panel);color:var(--ink)}
@@ -211,16 +240,17 @@ footer{padding:2rem 0 3rem;color:var(--ink-3);font-size:.85rem;border-top:1px so
 <div class="wrap">
 <header>
   <div class="brand"><i></i>Business Systems Design &amp; Analysis</div>
-  <div class="iconbar" role="toolbar" aria-label="Reference panels and theme">
-    <a class="icon-btn" href="#glossary" aria-label="Glossary" title="Glossary"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3z"/><path d="M5 4v16a3 3 0 0 1 3-3h11"/><path d="M9 9h6M9 13h4"/></svg></a>
-    <a class="icon-btn" href="#playbook" aria-label="Playbook" title="Playbook"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9l4 3-4 3z"/><path d="M14 9h3M14 15h3"/></svg></a>
-    <a class="icon-btn" href="#runbook" aria-label="Runbook" title="Runbook"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h2M12 8h4M8 12h2M12 12h4M8 16h2M12 16h4"/></svg></a>
-    <a class="icon-btn" href="#frameworks" aria-label="Frameworks" title="Frameworks"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></a>
-    <button class="icon-btn" id="themeBtn" aria-label="Toggle light or dark theme" title="Light / dark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg></button>
-  </div>
+  <nav class="iconbar" aria-label="Reference sections and theme">
+    <a class="icon-btn" href="#glossary" data-tip="Definitions of terms used in the guide"><svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 0-3 3z"/><path d="M5 4v16a3 3 0 0 1 3-3h11"/><path d="M9 9h6M9 13h4"/></svg><span>Glossary</span></a>
+    <a class="icon-btn" href="#operating" data-goto="playbook" data-tip="Phase-by-phase guidance, anti-patterns, and roles"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9l4 3-4 3z"/><path d="M14 9h3M14 15h3"/></svg><span>Playbook</span></a>
+    <a class="icon-btn" href="#operating" data-goto="runbook" data-tip="Step-by-step procedures for recurring activities"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h2M12 8h4M8 12h2M12 12h4M8 16h2M12 16h4"/></svg><span>Runbook</span></a>
+    <a class="icon-btn" href="#frameworks" data-tip="Methods and standards referenced, grouped by use"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg><span>Frameworks</span></a>
+    <button class="icon-btn" id="themeBtn" data-tip="Switch between light and dark theme"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/></svg><span>Theme</span></button>
+  </nav>
 </header>
 
 <div class="hero">
+  <p class="byline">Author and designer: James Christopher, F3Insights</p>
   <h1>Business systems design and analysis</h1>
   <p class="lead">How to move from an observed business problem to a specified, designed, and verified solution, and how plan-driven, empirical, and AI-assisted methods each shape that path. The guide is organized as a six-phase process. Each phase names its inputs, activities, outputs, and exit conditions.</p>
   <div class="cards">
@@ -485,56 +515,18 @@ footer{padding:2rem 0 3rem;color:var(--ink-3);font-size:.85rem;border-top:1px so
       </dl>
     </section>
 
-<section id="playbook" class="ref">
-  <h2>Playbook</h2>
-      <p>Guidance for applying the six phases on an engagement: what to do in each, what to decide first, and what goes wrong most often. The runbook that follows gives the step-by-step procedures.</p>
-      <h3>Before you start</h3>
-      <ul><li>Name the sponsor who can say no. If nobody can stop the project, nobody can be accountable for it either.</li><li>Pick the governance posture (plan-driven, hybrid, empirical, AI-native) explicitly and write it down. Most failures are an unspoken mismatch between what governance expects and how the team works.</li><li>Agree the baseline KPI you are trying to move before anyone proposes a solution.</li></ul>
-      <h3>Phase by phase</h3>
-      <div class="step"><b>1</b><div><strong>Discover.</strong> Sample every role that touches the workflow, including the ones who work around it. Watch the work before asking about it. Stop when new interviews stop producing new themes, typically 8 to 15 sessions per role cluster.</div></div>
-      <div class="step"><b>2</b><div><strong>Analyze.</strong> Model the as-is with measured times, not estimates. Quantify the cost of the current state. Run root-cause on the top three frictions and confirm at least one with data. Draw the scope boundary and name what is out.</div></div>
-      <div class="step"><b>3</b><div><strong>Specify.</strong> Write requirements as capabilities with acceptance measures. Pull business rules into a catalogue with owners. Write NFRs and controls with numbers. Build the traceability matrix as you go, not at the end. In AI-native mode, this is the deliverable; spend the time here.</div></div>
-      <div class="step"><b>4</b><div><strong>Design.</strong> Draft the to-be process, then allocate every decision point to a rule, a model, or a person using the solution-type chooser as a prompt. Prototype the riskiest path first and walk it with operators. Check incentives: who gets more work and did you ask them.</div></div>
-      <div class="step"><b>5</b><div><strong>Architect.</strong> Map dependencies across people, process, data, systems, AI, integrations, controls, vendors. Write ADRs for the five tradeoffs that matter. Design controls to requirements. Run a failure-mode pass: what breaks, who notices, how it degrades.</div></div>
-      <div class="step"><b>6</b><div><strong>Validate.</strong> Verify against the spec, validate against the baseline KPI with a pilot or before-after. Get operators trained and consulted before go-live. Stand up benefits tracking with owners and dates. Hold the retrospective on the analysis itself.</div></div>
-      <h3>Anti-patterns to watch</h3>
-      <ul><li><strong>Solution-first.</strong> The request arrives as "we need a tool for X." Route it back through Phases 1 and 2 anyway; the tool is a hypothesis.</li><li><strong>Requester-as-user.</strong> The sponsor's story is treated as the operation's reality. Shadow the operation.</li><li><strong>Automation by default.</strong> Every decision point is automated because it can be. Use error cost and explainability from the chooser to set the threshold.</li><li><strong>Spec by committee, verification by nobody.</strong> Especially in AI-native delivery: a detailed spec that no one owns and no check enforces produces confident, wrong output at speed.</li><li><strong>Gate theatre.</strong> Reviews that approve everything are not gates. Publish the exit criteria and record what was waived.</li></ul>
-      <h3>Roles</h3>
-      <table><tr><th>Role</th><th>Owns</th></tr>
-      <tr><td>Sponsor</td><td>Problem framing, priorities, gate decisions, benefits</td></tr>
-      <tr><td>Business systems analyst</td><td>Phases 1 to 3, traceability, rules catalogue, validation plan</td></tr>
-      <tr><td>Solution designer / architect</td><td>Phases 4 and 5, ADRs, dependency register, control design</td></tr>
-      <tr><td>Process owner(s)</td><td>Business rules, to-be procedure, operator readiness</td></tr>
-      <tr><td>Data owner</td><td>Source of truth, quality rules, lineage</td></tr>
-      <tr><td>Risk / compliance</td><td>Control requirements, evidence pack, model governance</td></tr>
-      <tr><td>Delivery lead</td><td>Cadence, backlog, release, cutover</td></tr></table>
-    </section>
 
-<section id="runbook" class="ref">
-  <h2>Runbook</h2>
-      <p>Step-by-step procedures for the recurring activities of an engagement. Follow them as written and revise them after each retrospective.</p>
-      <h3>R1 · Engagement kickoff (week 0)</h3>
-      <ol><li>Confirm sponsor, decision rights, and escalation path in writing.</li><li>Record the governance posture and which gates are live (use the blend control on the main page and copy the caption).</li><li>Create the artifact register: one entry per expected artifact per phase, with owner and status.</li><li>Set up the requirements traceability matrix template and the ADR folder.</li><li>Schedule gate reviews on the calendar now, with named attendees.</li><li>Publish the stakeholder map and the research sampling plan.</li></ol>
-      <h3>R2 · Weekly rhythm</h3>
-      <ul><li><strong>Monday:</strong> phase stand-up. What artifact moves this week, what blocks it, who is needed.</li><li><strong>Midweek:</strong> working sessions with process and data owners. Every session ends with a change to a named artifact or a recorded decision.</li><li><strong>Friday:</strong> artifact register update; risk and dependency register review; sponsor note (five lines: progress, decisions needed, risks, next week, help wanted).</li></ul>
-      <h3>R3 · Gate review procedure</h3>
-      <ol><li>Circulate the phase's exit criteria and the artifacts 48 hours ahead.</li><li>Reviewer checks each criterion: met, not met, or waived. Waivers require a named owner and a date.</li><li>Decision recorded as proceed, proceed with conditions, or return. Conditions become register entries.</li><li>If returned, log the reason category: research gap, unquantified problem, untestable requirement, missing owner, unresolved dependency. Track categories across engagements.</li></ol>
-      <h3>R4 · Requirements intake</h3>
-      <ol><li>Capture the ask in the requester's words.</li><li>Trace it to a stakeholder need and a Phase 2 finding; if none exists, route to discovery.</li><li>Rewrite as a capability statement with an acceptance measure.</li><li>Extract any embedded business rule into the catalogue with an owner.</li><li>Assign priority and verification method; add to the matrix.</li></ol>
-      <h3>R5 · Solution-type allocation</h3>
-      <ol><li>List every decision point in the to-be process.</li><li>For each, answer the six chooser questions and record the leading fit.</li><li>For any AI allocation, define: task, input/output schema, confidence threshold, fallback path, escalation owner, evaluation set, monitoring metric.</li><li>For any human allocation, define: role, procedure, checklist, training, and the incentive check.</li><li>Review allocations with operators before design proceeds.</li></ol>
-      <h3>R6 · Architecture decision</h3>
-      <ol><li>Open an ADR: title, status, date, context.</li><li>List at least two real options with consequences for each.</li><li>Decide; record who decided and what tradeoff was accepted.</li><li>Update the dependency register and the control matrix if affected.</li><li>Link the ADR from the requirements it serves.</li></ol>
-      <h3>R7 · Validation and go-live</h3>
-      <ol><li>Run verification against every acceptance measure; record results in the evidence pack.</li><li>Run the pilot or before-after against the baseline KPI for the agreed window.</li><li>Confirm operator training completion and support model.</li><li>Confirm monitoring is live (including model drift and fallback rates where applicable).</li><li>Go / no-go with the sponsor; record waivers.</li><li>Benefits review at 30, 90, and 180 days; feed findings to the next retrospective.</li></ol>
-      <h3>R8 · When it goes wrong</h3>
-      <table><tr><th>Symptom</th><th>Likely cause</th><th>Action</th></tr>
-      <tr><td>Requirements keep changing after baseline</td><td>Phase 2 skipped or under-sampled</td><td>Return to Analyze for the volatile area; re-baseline once</td></tr>
-      <tr><td>Operators work around the new system</td><td>Incentive check missed in Phase 4</td><td>Shadow, then redesign the procedure with them</td></tr>
-      <tr><td>AI component accuracy fine, business outcome flat</td><td>Wrong decision point automated, or fallback path unused</td><td>Re-run allocation; check fallback and escalation metrics</td></tr>
-      <tr><td>Integration failures dominate incidents</td><td>Coupling decision not made explicitly</td><td>Write the missing ADR; add contract tests</td></tr>
-      <tr><td>Audit finds gaps</td><td>Controls not traced to requirements</td><td>Rebuild control matrix from the traceability matrix</td></tr></table>
-    </section>
+
+<section id="operating">
+  <h2>Playbook and runbook</h2>
+  <p class="lead">The playbook covers judgment: what to do in each phase and what to watch for. The runbook covers execution: the step-by-step procedures for recurring activities. Select a card to turn it over.</p>
+  <div class="tabs" role="tablist" aria-label="Playbook or runbook">
+    <button role="tab" id="tab-playbook" data-tab="playbook" aria-selected="true" aria-controls="pane-playbook">Playbook</button>
+    <button role="tab" id="tab-runbook" data-tab="runbook" aria-selected="false" aria-controls="pane-runbook">Runbook</button>
+  </div>
+  <div class="cardgrid" id="pane-playbook" role="tabpanel" aria-labelledby="tab-playbook"></div>
+  <div class="cardgrid" id="pane-runbook" role="tabpanel" aria-labelledby="tab-runbook" hidden></div>
+</section>
 
 <section id="frameworks" class="ref">
   <h2>Frameworks</h2>
@@ -610,6 +602,44 @@ footer{padding:2rem 0 3rem;color:var(--ink-3);font-size:.85rem;border-top:1px so
   btn.addEventListener('click',()=>{const n=isDark()?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('bsd-theme',n)}catch(e){}paint();});
   paint();
 })();
+
+
+/* ---------- playbook & runbook cards ---------- */
+const PLAYBOOK=[
+ {c:'Before you start',t:'Set the terms of the engagement',f:'Three decisions to make before any research begins.',b:'<ul><li>Name the sponsor who can stop the project. Accountability requires the power to say no.</li><li>Choose the method (plan-driven, hybrid, empirical, AI-native) and write it down. Many failures come from governance expecting one method while the team works in another.</li><li>Agree the baseline KPI the work is meant to move before any solution is proposed.</li></ul>'},
+ {c:'Phase 1',t:'Discover',f:'Sample every role that touches the workflow and observe the work before asking about it.',b:'<ul><li>Include the people who work around the current system, not only its intended users.</li><li>Observe first, interview second; descriptions of work differ from the work.</li><li>Stop when new sessions stop producing new themes, typically 8 to 15 per role cluster.</li><li>Pull volumes, cycle times, and error rates to pair with what you observe.</li></ul>'},
+ {c:'Phase 2',t:'Analyze',f:'Model the current process with measured times, quantify its cost, and confirm at least one root cause with data.',b:'<ul><li>Use measured cycle and wait times, not estimates.</li><li>State the cost of the current state in time, money, and risk.</li><li>Run root-cause analysis on the top three frictions; confirm one with data.</li><li>Draw the scope boundary and record what is excluded.</li></ul>'},
+ {c:'Phase 3',t:'Specify',f:'Write requirements as testable capabilities, catalogue business rules with owners, and build traceability as you go.',b:'<ul><li>Each requirement: source, priority, acceptance measure, verification method.</li><li>Business rules go in a catalogue owned by the business, separate from code.</li><li>Non-functional and control requirements need numbers, not adjectives.</li><li>In AI-native delivery this phase produces the controlling artifact; allocate time accordingly.</li></ul>'},
+ {c:'Phase 4',t:'Design',f:'Draft the future process, assign each decision point to a rule, a model, or a person, and walk the prototype with operators.',b:'<ul><li>Use the solution-type chooser to structure each allocation decision.</li><li>Prototype the riskiest path first.</li><li>Walk the design through real scenarios from Phase 1 with the operators who will run it.</li><li>Check incentives: who gets more work, and were they consulted.</li></ul>'},
+ {c:'Phase 5',t:'Architect',f:'Map dependencies, record the decisions that matter, design controls to requirements, and analyze failure modes.',b:'<ul><li>Dependency map across people, process, data, systems, AI, integrations, controls, vendors.</li><li>Write an ADR for each tradeoff that would be expensive to reverse.</li><li>Every control traces to a requirement.</li><li>Failure-mode pass: what breaks, who notices, how it degrades.</li></ul>'},
+ {c:'Phase 6',t:'Validate',f:'Verify against the specification, validate against the baseline KPI, and hand over to trained operators with tracking in place.',b:'<ul><li>Verification and validation are separate tests; both must pass.</li><li>Pilot or before-and-after measurement against the Phase 2 baseline.</li><li>Operators trained and consulted before go-live.</li><li>Benefits tracking live with owners and review dates.</li><li>Retrospective on the analysis process itself.</li></ul>'},
+ {c:'Watch for',t:'Common anti-patterns',f:'Five recurring ways analysis and design go wrong.',b:'<ul><li><strong>Solution-first.</strong> The request arrives as a tool; route it through Phases 1 and 2 regardless.</li><li><strong>Requester as user.</strong> The sponsor\'s account replaces observation of the operation.</li><li><strong>Automation by default.</strong> Every decision point is automated because it can be. Set the threshold from error cost and explainability.</li><li><strong>Unowned specification.</strong> In AI-native delivery, a spec nobody owns and no check enforces produces confident, wrong output quickly.</li><li><strong>Gate theatre.</strong> Reviews that approve everything are not reviews. Publish criteria and record waivers.</li></ul>'},
+ {c:'Roles',t:'Who owns what',f:'Seven roles and the artifacts each is accountable for.',b:'<table><tr><th>Role</th><th>Owns</th></tr><tr><td>Sponsor</td><td>Problem framing, priorities, gate decisions, benefits</td></tr><tr><td>Business systems analyst</td><td>Phases 1 to 3, traceability, rules catalogue, validation plan</td></tr><tr><td>Solution designer / architect</td><td>Phases 4 and 5, ADRs, dependency register, controls</td></tr><tr><td>Process owner</td><td>Business rules, to-be procedure, operator readiness</td></tr><tr><td>Data owner</td><td>Source of truth, quality rules, lineage</td></tr><tr><td>Risk / compliance</td><td>Control requirements, evidence pack, model governance</td></tr><tr><td>Delivery lead</td><td>Cadence, backlog, release, cutover</td></tr></table>'}
+];
+const RUNBOOK=[
+ {c:'R1',t:'Engagement kickoff',f:'Week 0. Six setup steps that make the rest of the engagement traceable.',b:'<ol><li>Confirm sponsor, decision rights, and escalation path in writing.</li><li>Record the method and which review gates are active.</li><li>Create the artifact register: one entry per expected artifact per phase, with owner and status.</li><li>Set up the traceability matrix template and the ADR folder.</li><li>Schedule gate reviews with named attendees.</li><li>Publish the stakeholder map and research sampling plan.</li></ol>'},
+ {c:'R2',t:'Weekly rhythm',f:'A fixed cadence for stand-up, working sessions, and the sponsor note.',b:'<ul><li><strong>Monday.</strong> Phase stand-up: which artifact moves this week, what blocks it, who is needed.</li><li><strong>Midweek.</strong> Working sessions with process and data owners. Each ends with a change to a named artifact or a recorded decision.</li><li><strong>Friday.</strong> Update the artifact register; review risk and dependency registers; send the sponsor note (progress, decisions needed, risks, next week, help wanted).</li></ul>'},
+ {c:'R3',t:'Gate review',f:'How to run a phase exit review so that it is a decision rather than a formality.',b:'<ol><li>Circulate exit criteria and artifacts 48 hours ahead.</li><li>Mark each criterion met, not met, or waived. Waivers need an owner and a date.</li><li>Record the decision: proceed, proceed with conditions, or return. Conditions become register entries.</li><li>If returned, log the reason category (research gap, unquantified problem, untestable requirement, missing owner, unresolved dependency) and track categories across engagements.</li></ol>'},
+ {c:'R4',t:'Requirements intake',f:'Turning an incoming request into a traceable, testable requirement.',b:'<ol><li>Capture the request in the requester\'s words.</li><li>Trace it to a stakeholder need and a Phase 2 finding; if none exists, route to discovery.</li><li>Rewrite as a capability statement with an acceptance measure.</li><li>Extract any embedded business rule into the catalogue with an owner.</li><li>Assign priority and verification method; add to the traceability matrix.</li></ol>'},
+ {c:'R5',t:'Solution-type allocation',f:'Assigning each decision point in the future process to a rule, a model, or a person.',b:'<ol><li>List every decision point in the to-be process.</li><li>Answer the six chooser questions for each and record the leading fit.</li><li>For AI allocations define: task, input/output schema, confidence threshold, fallback path, escalation owner, evaluation set, monitoring metric.</li><li>For human allocations define: role, procedure, checklist, training, incentive check.</li><li>Review allocations with operators before design proceeds.</li></ol>'},
+ {c:'R6',t:'Architecture decision',f:'Recording a significant design decision as an ADR.',b:'<ol><li>Open an ADR: title, status, date, context.</li><li>List at least two real options with consequences for each.</li><li>Record the decision, who made it, and the tradeoff accepted.</li><li>Update the dependency register and control matrix if affected.</li><li>Link the ADR from the requirements it serves.</li></ol>'},
+ {c:'R7',t:'Validation and go-live',f:'Proving the solution and moving it into operation with tracking in place.',b:'<ol><li>Run verification against every acceptance measure; record results in the evidence pack.</li><li>Run the pilot or before-and-after against the baseline KPI for the agreed window.</li><li>Confirm operator training and the support model.</li><li>Confirm monitoring is live, including model drift and fallback rates where applicable.</li><li>Go / no-go with the sponsor; record waivers.</li><li>Benefits review at 30, 90, and 180 days.</li></ol>'},
+ {c:'R8',t:'When it goes wrong',f:'Five common symptoms, their usual causes, and the corrective action.',b:'<table><tr><th>Symptom</th><th>Cause</th><th>Action</th></tr><tr><td>Requirements keep changing after baseline</td><td>Phase 2 skipped or under-sampled</td><td>Return to Analyze for the volatile area; re-baseline once</td></tr><tr><td>Operators work around the new system</td><td>Incentive check missed</td><td>Shadow, then redesign the procedure with them</td></tr><tr><td>AI accuracy fine, outcome flat</td><td>Wrong decision point automated or fallback unused</td><td>Re-run allocation; check fallback and escalation metrics</td></tr><tr><td>Integration failures dominate incidents</td><td>Coupling decision never made</td><td>Write the missing ADR; add contract tests</td></tr><tr><td>Audit finds gaps</td><td>Controls not traced to requirements</td><td>Rebuild control matrix from the traceability matrix</td></tr></table>'}
+];
+function renderCards(list,el){
+  el.innerHTML=list.map((c,i)=>`<div class="flip" tabindex="0" role="button" aria-pressed="false" aria-label="${c.t}. Select to show details."><div class="flip-inner">
+    <div class="face front"><div class="code">${c.c}</div><h3>${c.t}</h3><p>${c.f}</p><div class="turn"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Details</div></div>
+    <div class="face back"><div class="code">${c.c}</div><h3>${c.t}</h3>${c.b}<div class="turn"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5M20 12a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>Back</div></div>
+  </div></div>`).join('');
+  el.querySelectorAll('.flip').forEach(f=>{const tog=()=>{f.classList.toggle('is-flipped');f.setAttribute('aria-pressed',f.classList.contains('is-flipped'));};
+    f.addEventListener('click',tog);f.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});});
+}
+renderCards(PLAYBOOK,document.getElementById('pane-playbook'));
+renderCards(RUNBOOK,document.getElementById('pane-runbook'));
+function showTab(name){document.querySelectorAll('#operating [role=tab]').forEach(t=>t.setAttribute('aria-selected',String(t.dataset.tab===name)));
+  document.getElementById('pane-playbook').hidden=name!=='playbook';document.getElementById('pane-runbook').hidden=name!=='runbook';}
+document.querySelectorAll('#operating [role=tab]').forEach(t=>t.addEventListener('click',()=>showTab(t.dataset.tab)));
+document.querySelectorAll('.icon-btn[data-goto]').forEach(a=>a.addEventListener('click',()=>showTab(a.dataset.goto)));
 
 /* ---------- blend ---------- */
 const BLEND={
